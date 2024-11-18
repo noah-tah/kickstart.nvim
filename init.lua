@@ -228,6 +228,36 @@ vim.opt.rtp:prepend(lazypath)
 --
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
+  {
+    'zbirenbaum/copilot.lua',
+    cmd = 'Copilot',
+    event = 'InsertEnter',
+    config = function()
+      require('copilot').setup {
+        suggestion = {
+          enabled = true, -- Enables inline suggestions
+          auto_trigger = true, -- Automatically trigger suggestions
+          debounce = 75,
+          keymap = {
+            accept = '<Tab>', --Accept suggestion
+            next = '<C-n>', -- Navigate to the next suggestion
+            prev = '<C-p>', -- Navigate to the previous suggestion
+            dismiss = '<C-]>',
+          },
+        },
+        panel = { enabled = true },
+      }
+    end,
+  },
+
+  {
+    'zbirenbaum/copilot-cmp',
+    dependencies = { 'zbirenbaum/copilot.lua' },
+    config = function()
+      require('copilot_cmp').setup()
+    end,
+  },
+
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
@@ -237,7 +267,6 @@ require('lazy').setup({
   --
   -- Use `opts = {}` to force a plugin to be loaded.
   --
-
   -- Here is a more advanced example where we pass configuration
   -- options to `gitsigns.nvim`. This is equivalent to the following Lua:
   --    require('gitsigns').setup({ ... })
